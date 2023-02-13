@@ -10,6 +10,10 @@ btnStart.addEventListener("click", startRandomColor);
 
 function startRandomColor() {
 
+    btnStart.disabled = true;
+    btnStart.style.opacity = 0.7;
+    btnStart.textContent = 'Process is running...';
+
     intervalTimeRandom = setInterval(() => {
 
         function getRandomHexColor() {
@@ -23,5 +27,8 @@ function startRandomColor() {
 btnStop.addEventListener(`click`, stopRandomColor)
 
 function stopRandomColor() {
-clearInterval(intervalTimeRandom);
+    btnStart.textContent = "Start";
+    btnStart.style.opacity = 1;
+    btnStart.disabled = false;
+    clearInterval(intervalTimeRandom);
 };
