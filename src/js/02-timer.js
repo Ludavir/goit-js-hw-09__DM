@@ -4,10 +4,11 @@ import Notiflix from 'notiflix';
 
 const inputText = document.querySelector(`input[type=text]`);
 const btnStart = document.querySelector("button[data-start]");
-const days = document.querySelector("span[data-days]");
-const hours = document.querySelector("span[data-hours]");
-const minutes = document.querySelector("span[data-minutes]");
-const seconds = document.querySelector("span[data-seconds]");
+
+const daysPrint = document.querySelector("span[data-days]");
+const hoursPrint = document.querySelector("span[data-hours]");
+const minutesPrint  = document.querySelector("span[data-minutes]");
+const secondsPrint  = document.querySelector("span[data-seconds]");
 
 btnStart.disabled = true;
 btnStart.style.opacity = 0.7;
@@ -16,6 +17,7 @@ console.log(inputText);
 
 const dateDefaultNew = new Date();
 const NumDateDefault = dateDefaultNew.getTime();
+
 flatpickr("input[type=text]", {
     enableTime: true,
     time_24hr: true,
@@ -23,16 +25,22 @@ flatpickr("input[type=text]", {
     minuteIncrement: 1,
     onClose(selectedDates) {
         const numDateNow = selectedDates[0].getTime();
-        console.log(selectedDates[0]);
-        const decimales = numDateNow - NumDateDefault;
-
-        console.log(decimales);
+        // console.log(selectedDates[0]);
 
         if (numDateNow > NumDateDefault) {
             btnStart.style.opacity = 1;
             btnStart.disabled = false;
             console.log("Fecha valida");
-            btnStart.addEventListener("click", convertMs);
+            const timeDiference = numDateNow - NumDateDefault;
+            console.log(timeDiference);
+            const convertTime = convertMs(timeDiference);
+
+            daysPrint.innerHTML = convertTime.days;
+            hoursPrint.innerHTML = convertTime.hours;
+            minutesPrint.innerHTML = convertTime.minutes;
+            secondsPrint.innerHTML = convertTime.seconds;
+
+            btnStart.addEventListener("click", setInterval)
         } else {
             Notiflix.Notify.failure("Please choose a date in the future")
         }
@@ -55,5 +63,4 @@ function convertMs(ms) {
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
     return { days, hours, minutes, seconds };
-}
-
+};
