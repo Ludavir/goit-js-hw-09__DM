@@ -13,7 +13,7 @@ const secondsPrint  = document.querySelector(`[data-seconds=""]`);
 btnStart.disabled = true;
 btnStart.style.opacity = 0.7;
 
-let numDateNow;
+let dateNew;
 
 flatpickr("input[type=text]", {
     enableTime: true,
@@ -27,7 +27,7 @@ flatpickr("input[type=text]", {
 
             btnStart.style.opacity = 1;
             btnStart.disabled = false;
-            console.log("Fecha valida");
+            Notiflix.Notify.success('Valid Date');
 
         } else {
             Notiflix.Notify.failure("Please choose a date in the future")
@@ -53,7 +53,6 @@ function convertMs(ms) {
     return { days, hours, minutes, seconds };
 };
 
-
 btnStart.addEventListener(`click`, () => {
         let timer = setInterval(() => {
         const dateDefaultNew = new Date();
@@ -61,10 +60,35 @@ btnStart.addEventListener(`click`, () => {
         const {
             days, hours, minutes, seconds
         } = convertMs(timeDiference);
-        daysPrint.innerText = days;
-        hoursPrint.innerText = hours;
-        minutesPrint.innerText = minutes;
-        secondsPrint.innerText = seconds;
+
+        if (days < 10) {
+            daysPrint.innerText = `0${days}`;
+        } else {
+            daysPrint.innerText = days;
+        }
+
+        if (hours < 10) {
+            hoursPrint.innerText = `0${hours}`;
+        } else {
+            hoursPrint.innerText = hours;
+        }
+
+        if (minutes < 10) {
+            minutesPrint.innerText = `0${minutes}`;
+        } else {
+            minutesPrint.innerText = minutes;
+        }
+
+        if (seconds < 10) {
+            secondsPrint.innerText = `0${seconds}`;
+        } else {
+            secondsPrint.innerText = seconds;
+        }
+
+        if (timeDiference <= 0 ) {
+            clearInterval(timer);
+            Notiflix.Notify.success('Procces is DONE');
+        }
     }, 1000)
 });
 
