@@ -85,7 +85,7 @@ btnStart.addEventListener(`click`, () => {
             secondsPrint.innerText = seconds;
         }
 
-        if (timeDiference <= 0 ) {
+        if (timeDiference <= 1 ) {
             clearInterval(timer);
             Notiflix.Notify.success('Procces is DONE');
         }
