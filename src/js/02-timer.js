@@ -16,7 +16,8 @@ btnStart.style.opacity = 0.7;
 console.log(inputText);
 
 const dateDefaultNew = new Date();
-const NumDateDefault = dateDefaultNew.getTime();
+const numDateDefault = dateDefaultNew.getTime();
+let numDateNow;
 
 flatpickr("input[type=text]", {
     enableTime: true,
@@ -24,23 +25,13 @@ flatpickr("input[type=text]", {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-        const numDateNow = selectedDates[0].getTime();
+        numDateNow = selectedDates[0].getTime();
         // console.log(selectedDates[0]);
 
-        if (numDateNow > NumDateDefault) {
+        if (numDateNow > numDateDefault) {
             btnStart.style.opacity = 1;
             btnStart.disabled = false;
             console.log("Fecha valida");
-            const timeDiference = numDateNow - NumDateDefault;
-            console.log(timeDiference);
-            const convertTime = convertMs(timeDiference);
-
-            daysPrint.innerHTML = convertTime.days;
-            hoursPrint.innerHTML = convertTime.hours;
-            minutesPrint.innerHTML = convertTime.minutes;
-            secondsPrint.innerHTML = convertTime.seconds;
-
-            btnStart.addEventListener("click", setInterval)
         } else {
             Notiflix.Notify.failure("Please choose a date in the future")
         }
@@ -64,3 +55,25 @@ function convertMs(ms) {
 
     return { days, hours, minutes, seconds };
 };
+
+
+btnStart.addEventListener(`click`, setInterval);
+
+function timeOut() {
+    const timeDiference = numDateNow - numDateDefault;
+    if (timeDiference <= 0) {
+        Notiflix.Notify.success('Procces is finished');
+    } else {
+        const convertTime = convertMs(timeDiference);
+        daysPrint.innerHTML = convertTime.days;
+        hoursPrint.innerHTML = convertTime.hours;
+        minutesPrint.innerHTML = convertTime.minutes;
+        secondsPrint.innerHTML = convertTime.seconds;
+    }
+}
+
+btnStart.addEventListener("click", () => {
+    Notiflix.Notify.success('Procces is running');
+});
+
+setInterval(timeOut, 1000)
