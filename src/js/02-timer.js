@@ -5,18 +5,14 @@ import Notiflix from 'notiflix';
 const inputText = document.querySelector(`input[type=text]`);
 const btnStart = document.querySelector("button[data-start]");
 
-const daysPrint = document.querySelector("span[data-days]");
-const hoursPrint = document.querySelector("span[data-hours]");
-const minutesPrint  = document.querySelector("span[data-minutes]");
-const secondsPrint  = document.querySelector("span[data-seconds]");
+const daysPrint = document.querySelector(`[data-days=""]`);
+const hoursPrint = document.querySelector(`[data-hours=""]`);
+const minutesPrint  = document.querySelector(`[data-minutes=""]`);
+const secondsPrint  = document.querySelector(`[data-seconds=""]`);
 
 btnStart.disabled = true;
 btnStart.style.opacity = 0.7;
 
-console.log(inputText);
-
-const dateDefaultNew = new Date();
-const numDateDefault = dateDefaultNew.getTime();
 let numDateNow;
 
 flatpickr("input[type=text]", {
@@ -25,13 +21,14 @@ flatpickr("input[type=text]", {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-        numDateNow = selectedDates[0].getTime();
-        // console.log(selectedDates[0]);
+        dateNew = selectedDates[0];
+        const dateDefaultNew = new Date();
+        if (dateNew.getTime() > dateDefaultNew.getTime()) {
 
-        if (numDateNow > numDateDefault) {
             btnStart.style.opacity = 1;
             btnStart.disabled = false;
             console.log("Fecha valida");
+
         } else {
             Notiflix.Notify.failure("Please choose a date in the future")
         }
@@ -57,23 +54,20 @@ function convertMs(ms) {
 };
 
 
-btnStart.addEventListener(`click`, setInterval);
-
-function timeOut() {
-    const timeDiference = numDateNow - numDateDefault;
-    if (timeDiference <= 0) {
-        Notiflix.Notify.success('Procces is finished');
-    } else {
-        const convertTime = convertMs(timeDiference);
-        daysPrint.innerHTML = convertTime.days;
-        hoursPrint.innerHTML = convertTime.hours;
-        minutesPrint.innerHTML = convertTime.minutes;
-        secondsPrint.innerHTML = convertTime.seconds;
-    }
-}
+btnStart.addEventListener(`click`, () => {
+        let timer = setInterval(() => {
+        const dateDefaultNew = new Date();
+        let timeDiference = dateNew.getTime() - dateDefaultNew.getTime();
+        const {
+            days, hours, minutes, seconds
+        } = convertMs(timeDiference);
+        daysPrint.innerText = days;
+        hoursPrint.innerText = hours;
+        minutesPrint.innerText = minutes;
+        secondsPrint.innerText = seconds;
+    }, 1000)
+});
 
 btnStart.addEventListener("click", () => {
     Notiflix.Notify.success('Procces is running');
 });
-
-setInterval(timeOut, 1000)
