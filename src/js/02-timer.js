@@ -5,10 +5,10 @@ import Notiflix from 'notiflix';
 const inputText = document.querySelector(`input[type=text]`);
 const btnStart = document.querySelector("button[data-start]");
 
-const daysPrint = document.querySelector(`[data-days=""]`);
-const hoursPrint = document.querySelector(`[data-hours=""]`);
-const minutesPrint  = document.querySelector(`[data-minutes=""]`);
-const secondsPrint  = document.querySelector(`[data-seconds=""]`);
+const daysPrint = document.querySelector(`span[data-days]`);
+const hoursPrint = document.querySelector(`span[data-hours]`);
+const minutesPrint  = document.querySelector(`span[data-minutes]`);
+const secondsPrint  = document.querySelector(`span[data-seconds]`);
 
 btnStart.disabled = true;
 btnStart.style.opacity = 0.7;
