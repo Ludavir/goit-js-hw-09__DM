@@ -5,8 +5,6 @@ const numStep = document.querySelector(`input[name="step"]`);
 const numAmount = document.querySelector(`input[name="amount"]`);
 const btnCreate = document.querySelector("button")
 
-
-
 function createPromise(i, delay) {
 
   const shouldResolve = Math.random() > 0.3;
@@ -14,6 +12,7 @@ function createPromise(i, delay) {
   let myPromise = new Promise ((resolve, rejected) => {
 
     setTimeout(condition, delay);
+
     function condition() {
       if (shouldResolve) {
         resolve(`✅ Fulfilled promise ${i} in ${delay}ms`)
@@ -32,11 +31,15 @@ btnCreate.addEventListener(`click`, (e) => {
   let step = Number(numStep.value);
   let amount = Number(numAmount.value);
 
-  for ( i = 1; i <= amount; i += 1) {
+  console.log(delay, step, amount);
+
+  for ( let i = 1; i <= amount; i ++) {
     setTimeout(() => {
+
+      let firstStep = delay;
       delay += step;
 
-      createPromise(i, delay)
+      createPromise(i, firstStep)
       .then((value) => {
         Notiflix.Notify.success(value)
       })
